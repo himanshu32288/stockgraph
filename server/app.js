@@ -47,11 +47,16 @@ app.get("/api/stock/:symbol", async (req, res, next) => {
     SimpleMAOscillator: false,
     SimpleMASignal: false,
   };
+
   const macd = MACD.calculate(macdInput);
+  console.log(macd);
   const macd_array = [];
-  macd_array.push(["Date", "macd", "signal", "histogram"]);
+  macd_array.push(["Date", "MACD", "Signal Line", "MACD Histogram"]);
+  let i = 1;
   for (const x of macd) {
-    macd_array.push(["", x.MACD, x.histogram, x.signal]);
+    const date = candlestick_Data[i][0];
+    macd_array.push([date, x.MACD, x.histogram, x.signal]);
+    i++;
   }
   res.json({ dailyData: candlestick_Data, macd: macd_array });
 });

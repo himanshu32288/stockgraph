@@ -11,17 +11,22 @@ export const options = {
     fallingColor: { strokeWidth: 0, fill: "#a52714" }, // red
     risingColor: { strokeWidth: 0, fill: "#0f9d58" }, // green
   },
+  chartArea: { top: 40 },
 };
 export const macdoption = {
   title: "",
   vAxis: { title: "" },
   hAxis: { title: "" },
-  series: { 0: { type: "bars" }, 1: { type: "line" }, 2: { type: "line" } },
+  lineWidth: 2,
+  series: {
+    0: { type: "Line" },
+    1: { type: "line", lineDashStyle: [1, 1] },
+    2: { type: "bars" },
+  },
   bar: { groupWidth: "100%" },
+  chartArea: { top: 10 },
 };
 const Graph = (props) => {
-  // const [res, setres] = useState(null);
-  //   const [symbol, setSymbol] = useState("AAPC");
   const [data, setData] = useState();
   const [macd, setMacd] = useState();
   const { sendRequest } = useHttpClient();
@@ -44,14 +49,14 @@ const Graph = (props) => {
       <Chart
         chartType="CandlestickChart"
         width="100%"
-        height="300"
+        height="400px"
         data={data}
         options={options}
       />
       <Chart
         chartType="ComboChart"
         width="100%"
-        height="200px"
+        height="400px"
         data={macd}
         options={macdoption}
       />
