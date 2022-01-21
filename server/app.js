@@ -1,7 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const alpha = require("alphavantage-fix")({ key: `${process.env.key}` });
+const { key } = require("./Config/Key");
+const alpha = require("alphavantage-fix")({ key });
+const PORT = 4000;
 const MACD = require("technicalindicators").MACD;
 app.use(bodyParser.json({ limit: "16mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -68,8 +70,17 @@ app.get("/api/stock/:symbol", async (req, res, next) => {
   res.json({ dailyData: candlestick_Data, macd: macd_array });
 });
 
+if (process.env.NODE_ENV === "production") {
+  const path = require("path");
+  app.get("/", (req, res) => {
+    app.use(
+      express.static(path.resolve(__dirname, "..", "build", "index.html"))
+    );
+    res.send(path.resolve(__dirname, "..", "build", "index.html"));
+  });
+}
 try {
-  app.listen(4000);
+  app.listen(PORT);
 } catch (err) {
   console.log(err);
 }
