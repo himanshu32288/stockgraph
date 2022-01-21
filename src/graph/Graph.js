@@ -42,7 +42,7 @@ const Graph = () => {
       try {
         console.log();
         data = await sendRequest(
-          process.env.REACT_APP_URL + `/stock/${symbol}`
+         `https://deploy4ready.herokuapp.com/api/stock/${symbol}`
         );
       } catch (err) {}
 
