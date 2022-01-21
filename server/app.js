@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
-const { key } = require("./Config/Key");
+const { key, port } = require("./Config/Key");
 const alpha = require("alphavantage-fix")({ key });
-const PORT = 4000;
+const PORT = port || 4000;
 const MACD = require("technicalindicators").MACD;
 app.use(bodyParser.json({ limit: "16mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
