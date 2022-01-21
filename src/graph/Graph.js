@@ -3,6 +3,9 @@ import { Chart } from "react-google-charts";
 import { useState } from "react";
 import { useHttpClient } from "../hook/http-hook";
 import { useEffect } from "react";
+import { useContext } from "react";
+import { symbolContext } from "../Context/SymbolContext";
+import { TailSpin } from "react-loader-spinner";
 export const options = {
   legend: "none",
   bar: { groupWidth: "75%" },
@@ -20,47 +23,65 @@ export const macdoption = {
   lineWidth: 2,
   series: {
     0: { type: "Line" },
-    1: { type: "line", lineDashStyle: [1, 1] },
-    2: { type: "bars" },
+    1: { type: "bars" },
+    2: { type: "line", lineDashStyle: [4, 4] },
   },
   bar: { groupWidth: "100%" },
   chartArea: { top: 10 },
 };
-const Graph = (props) => {
+const Graph = () => {
   const [data, setData] = useState();
   const [macd, setMacd] = useState();
   const { sendRequest } = useHttpClient();
+  const [isLoading, setisLoading] = useState(true);
+  const { symbol } = useContext(symbolContext);
   useEffect(() => {
-    const getData = async () => {
+    const getData = async (symbol) => {
+      setisLoading(true);
       let data;
       try {
-        data = await sendRequest(
-          `http://localhost:4000/api/stock/${props.symbol}`
-        );
+        data = await sendRequest(`http://localhost:4000/api/stock/${symbol}`);
       } catch (err) {}
 
       setData(data["dailyData"]);
       setMacd(data["macd"]);
+      setisLoading(false);
     };
-    getData(props.symbol);
-  }, [props.symbol, sendRequest]);
+    getData(symbol);
+  }, [symbol, sendRequest]);
   return (
-    <div className="graph-container">
-      <Chart
-        chartType="CandlestickChart"
-        width="100%"
-        height="400px"
-        data={data}
-        options={options}
-      />
-      <Chart
-        chartType="ComboChart"
-        width="100%"
-        height="400px"
-        data={macd}
-        options={macdoption}
-      />
-    </div>
+    <>
+      <div className="graph-container">
+        {isLoading && (
+          <TailSpin
+            arialLabel="loading-indicator"
+            color="red"
+            radius={0}
+            height={150}
+            width={150}
+            wrapperClass="spinner"
+          />
+        )}
+        {!isLoading && (
+          <>
+            <Chart
+              chartType="CandlestickChart"
+              width="100%"
+              height="400px"
+              data={data}
+              options={options}
+            />
+            <Chart
+              chartType="ComboChart"
+              width="100%"
+              height="400px"
+              data={macd}
+              options={macdoption}
+            />
+          </>
+        )}
+      </div>
+    </>
   );
 };
 

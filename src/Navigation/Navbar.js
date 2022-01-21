@@ -1,11 +1,8 @@
-import { useState } from "react";
 import Symbolselect from "../graph/Symbolselect";
-import Graph from "../graph/Graph";
+import { useContext } from "react";
+import { symbolContext } from "../Context/SymbolContext";
 const Navbar = () => {
-  const [symbol, setSymbol] = useState("AAPL");
-  const changeSymbol = (newSymbol) => {
-    setSymbol(newSymbol);
-  };
+  const { symbol } = useContext(symbolContext);
   return (
     <>
       <nav
@@ -26,13 +23,12 @@ const Navbar = () => {
                 >
                   {symbol}
                 </a>
-                <Symbolselect changeNav={changeSymbol} />
+                <Symbolselect />
               </li>
             </ul>
           </div>
         </div>
       </nav>
-      <Graph symbol={symbol} />
     </>
   );
 };

@@ -1,7 +1,7 @@
+import { useContext } from "react";
+import { symbolContext } from "../Context/SymbolContext";
 const Symbolselect = (props) => {
-  const change = (newSymbol) => {
-    props.changeNav(newSymbol);
-  };
+  const { setSymbol } = useContext(symbolContext);
   return (
     <>
       <ul className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -9,7 +9,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("AAPL");
+              setSymbol("AAPL");
             }}
           >
             AAPL
@@ -19,7 +19,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("MSFT");
+              setSymbol("MSFT");
             }}
           >
             MSFT
@@ -29,7 +29,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("AMD");
+              setSymbol("AMD");
             }}
           >
             AMD
@@ -39,7 +39,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("TCS");
+              setSymbol("TCS");
             }}
           >
             TCS
@@ -49,7 +49,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("NS");
+              setSymbol("NS");
             }}
           >
             NS
@@ -59,7 +59,7 @@ const Symbolselect = (props) => {
           <button
             className="dropdown-item"
             onClick={() => {
-              change("BAC");
+              setSymbol("BAC");
             }}
           >
             BAC
