@@ -73,9 +73,7 @@ app.get("/api/stock/:symbol", async (req, res, next) => {
 if (process.env.NODE_ENV === "production") {
   const path = require("path");
   app.get("/", (req, res) => {
-    app.use(
-      express.static(path.resolve(__dirname, "..", "build", "index.html"))
-    );
+    app.use(express.static(path.resolve(__dirname, "..", "build")));
     res.send(path.resolve(__dirname, "..", "build", "index.html"));
   });
 }
